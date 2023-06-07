@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
@@ -5,14 +6,17 @@ public class Game {
     private final UserSettings userSettings = new UserSettings();
     private final GrabSpiderName grabSpider = new GrabSpiderName();
     private final GameBackground gameBackground = new GameBackground(grabSpider.getSpiderName());
+    private final ArrayList<Character> mistakesLog = new ArrayList<>();
     private final Integer MAX_AMOUNT_OF_MISTAKES = 5;
     private Integer mistakes = 0;
 
     public boolean play() {
-        System.out.printf("\n%s%s%s\n",
+        System.out.printf("\n%s%s%s\n%s\n",
                 userSettings.getResourceBundle().getString("startPart1"),
                 userSettings.getUserName(),
-                userSettings.getResourceBundle().getString("startPart2"));
+                userSettings.getResourceBundle().getString("startPart2"),
+                "\u001B[32m/\\\\O.O//\\\u001B[0m");
+
         while(mistakes < MAX_AMOUNT_OF_MISTAKES && gameBackground.getUniqueLettersInAnswer().size() > 0) {
             gameBackground.showTable(gameBackground.getGameTable());
             char userChoice = takeCharacterFromUser();
@@ -20,10 +24,10 @@ public class Game {
                 gameBackground.getUniqueLettersInAnswer().remove(userChoice);
                 putCharacterOnGameTable(userChoice);
             } else {
-                mistakes++;
-                System.out.printf("%s%d\n",
+                checkIfTrueMistake(userChoice);
+                System.out.printf("\u001B[32m%s%d %s\u001B[0m\n",
                         userSettings.getResourceBundle().getString("mistakes"),
-                        mistakes);
+                        mistakes, mistakesLog);
             }
         }
         chooseEnd();
@@ -32,16 +36,24 @@ public class Game {
 
     private void chooseEnd() {
         if(gameBackground.getUniqueLettersInAnswer().size() == 0) {
-            System.out.printf("\n%s%s%s",
+            System.out.printf("\n\u001B[32m%s\u001B[0m\n%s%s%s",
+                    grabSpider.getSpiderName(),
                     userSettings.getResourceBundle().getString("winPart1"),
                     userSettings.getUserName(),
                     userSettings.getResourceBundle().getString("winPart2"));
         } else {
-            System.out.printf("\n%s%s%s\n%s",
+            System.out.printf("\n%s%s%s\n\u001B[32m%s\u001B[0m",
                     userSettings.getResourceBundle().getString("losePart1"),
                     userSettings.getUserName(),
                     userSettings.getResourceBundle().getString("losePart2"),
                     grabSpider.getSpiderName());
+        }
+    }
+
+    private void checkIfTrueMistake(Character useChoice) {
+        if(!mistakesLog.contains(useChoice) && !gameBackground.getGameTable().contains(useChoice)) {
+            mistakesLog.add(useChoice);
+            mistakes++;
         }
     }
 
