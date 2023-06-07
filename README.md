@@ -17,5 +17,5 @@ During a game a user gets an information about amount of committed mistakes.</br
 User can see also a mistakes log.
 
 # Demo
-[<img src="https://img.youtube.com/vi/xvOJnztP8f4/0.jpg" width="250" alt="guess-the-spider-video">](
-https://www.youtube.com/watch?v=xvOJnztP8f4)
+[<img src="https://img.youtube.com/vi/xSY-PrRt3zs/0.jpg" width="250" alt="guess-the-spider-video">](
+https://www.youtube.com/watch?v=xSY-PrRt3zs)
